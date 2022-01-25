@@ -2,12 +2,12 @@
  const photoContainer = document.getElementById('image-container'); // Get photo-container element
  const loader = document.getElementById('loader'); // Get loader element
 
- let photosArray = [];
- let loaded = false;
+ let photosArray = [];  // This will contain all images JSON data from unsplash API
+ let loaded = false;  // Boolean to check if have loaded more images on reaching end.
  //Unsplash API
- const count = 30;
+ const noOfImgToLoad = 10; // initially we load only 10 images 
  const apiKey = '7cWNrHeM_dHY3JlTPK1avMIRgMU2_kuxJO7ermwYGp8';
- const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`;
+ const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${noOfImgToLoad}`;
 
  // Funtion to setAttribute
  function setAttributes(element,attributes){  // This function will set attribute of element 
@@ -54,11 +54,12 @@
  // Get photos from unsplash API
  async function getPhotos(){
      try{
-        const response = await fetch(apiUrl);
-        photosArray = await response.json();
-        await displayPhotos();
+        const response = await fetch(apiUrl); // Fetching response from unsplash API
+        photosArray = await response.json();  // Getting JSON of received response
+        await displayPhotos();  
         loader.hidden=true;
-        loaded=false;
+        noOfImgToLoad = 30; // Once the initial load is done next time onewards we load 30 images
+        loaded=false;  // This is set to false cause when new images are loaded we do not want to load more untill we reach end again
     }catch(error){
          console.log(error);
      }
@@ -74,8 +75,7 @@
      // 4.  We subtract 1000px so that if we reach newar to 1000px from end more image will load 
     if((window.scrollY + window.innerHeight >= document.body.offsetHeight - 1000)&& !loaded){
         loaded = true;
-        console.log("loaded");
-        getPhotos();
+        getPhotos(); // We load more photos when we reach end
     }
  });
 
