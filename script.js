@@ -9,7 +9,7 @@
 //  let loaded = false;  // Boolean to check if have loaded more images on reaching end.
  //Unsplash API
  let noOfImgToLoad = 10; // initially we load only 10 images 
- const apiKey = 'C9s9nM6UX1JaDjzmYFLz8gkE6Q17I1XILKxugqTMZtE-GI';
+ const apiKey = 'C9s9nM6UX1JaDjzmYFLz8gkE6Q17I1XILKxugqTMZtE';
  const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${noOfImgToLoad}`;
 
  function imageLoaded(){
