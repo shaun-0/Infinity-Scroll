@@ -77,7 +77,7 @@
         displayPhotos();  
         console.log("noOfImgLoad",noOfImgToLoad);
         loader.hidden=true;
-        // noOfImgToLoad = 30; // Once the initial load is done next time onewards we load 30 images
+        noOfImgToLoad = 20; // Once the initial load is done next time onewards we load 30 images
         // loaded=fal se;// This is set to false cause when new images are loaded we do not want to load more untill we reach end again
     }catch(error){
          
