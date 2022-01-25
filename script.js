@@ -2,12 +2,26 @@
  const photoContainer = document.getElementById('image-container'); // Get photo-container element
  const loader = document.getElementById('loader'); // Get loader element
 
+ let ready = false;
+ let imagesLoaded = 0;
+ let totalImages = 0;
  let photosArray = [];  // This will contain all images JSON data from unsplash API
- let loaded = false;  // Boolean to check if have loaded more images on reaching end.
+//  let loaded = false;  // Boolean to check if have loaded more images on reaching end.
  //Unsplash API
- const noOfImgToLoad = 10; // initially we load only 10 images 
- const apiKey = '7cWNrHeM_dHY3JlTPK1avMIRgMU2_kuxJO7ermwYGp8';
+ let noOfImgToLoad = 10; // initially we load only 10 images 
+ const apiKey = 'srniGng6YAhPu_DW7RkgudET_TjQA5Z9NPTfOtbpcDs';
  const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${noOfImgToLoad}`;
+
+ function imageLoaded(){
+     console.log("imagesLoaded",imagesLoaded);
+     imagesLoaded++;
+     if(imagesLoaded === totalImages){
+         ready = true;
+         console.log("ready ",ready);
+     }
+
+ }
+
 
  // Funtion to setAttribute
  function setAttributes(element,attributes){  // This function will set attribute of element 
@@ -19,6 +33,9 @@
 
  // dispaly image for each photo in our Photo array and add it to DOM
  function displayPhotos(){
+     imagesLoaded=0;
+     totalImages = photosArray.length;
+     console.log("total Images : ",totalImages);
      //for each photos run the following loop 
      photosArray.forEach((photo)=>{
         /*
@@ -43,7 +60,7 @@
             alt:photo.alt_description,
             title:photo.description
         }); 
-      
+        image.addEventListener('load',imageLoaded);
 
         //adding image inside <a> tag
         item.appendChild(image);  // appendChild(child) will append image tag inside a tag
@@ -56,12 +73,14 @@
      try{
         const response = await fetch(apiUrl); // Fetching response from unsplash API
         photosArray = await response.json();  // Getting JSON of received response
+        console.log(photosArray);
         displayPhotos();  
+        console.log("noOfImgLoad",noOfImgToLoad);
         loader.hidden=true;
-        noOfImgToLoad = 20; // Once the initial load is done next time onewards we load 30 images
-        loaded=false;  // This is set to false cause when new images are loaded we do not want to load more untill we reach end again
+        // noOfImgToLoad = 30; // Once the initial load is done next time onewards we load 30 images
+        // loaded=fal se;// This is set to false cause when new images are loaded we do not want to load more untill we reach end again
     }catch(error){
-         console.log(error);
+         
      }
  }
 
@@ -72,9 +91,10 @@
      //         we add both of above to get the about of pixel loaded so far => scrolledPixel + currentDisplayed
 
      // 3.  document.body.offsetHeight => Tells us how much of page length we have in total, it include what we have + what we dont have in window
-     // 4.  We subtract 1000px so that if we reach newar to 1000px from end more image will load 
-    if((window.scrollY + window.innerHeight >= document.body.offsetHeight - 1000)&& !loaded){
-        loaded = true;
+     // 4.  We subtract 1000px so that if we reach newar to 1000px from end more image will load
+    if((window.scrollY + window.innerHeight >= document.body.offsetHeight - 1000)&& ready){
+        // loaded = true;
+        ready=false;
         getPhotos(); // We load more photos when we reach end
     }
  });
