@@ -56,9 +56,9 @@
      try{
         const response = await fetch(apiUrl); // Fetching response from unsplash API
         photosArray = await response.json();  // Getting JSON of received response
-        await displayPhotos();  
+        displayPhotos();  
         loader.hidden=true;
-        noOfImgToLoad = 30; // Once the initial load is done next time onewards we load 30 images
+        noOfImgToLoad = 20; // Once the initial load is done next time onewards we load 30 images
         loaded=false;  // This is set to false cause when new images are loaded we do not want to load more untill we reach end again
     }catch(error){
          console.log(error);
